@@ -1,0 +1,12 @@
+# Система учёта иностранных студентов ННГАСУ
+# Зависимости
+
+# Обязательно для генерации Word-документов
+python-docx>=1.1.0
+
+# Шифрование базы данных SQLCipher (рекомендуется)
+# После установки база данных станет недоступна через DB Browser for SQLite
+sqlcipher3-binary
+
+# Встроено в Python (не нужно устанавливать):
+# tkinter, sqlite3, hashlib, secrets, datetime, calendar, configparser
