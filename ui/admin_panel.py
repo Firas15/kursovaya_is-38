@@ -279,7 +279,7 @@ class _UserDialog(tk.Toplevel):
             setattr(self, attr, tk.StringVar())
             tk.Label(f, text=lbl, font=FONT, anchor="e", width=14).grid(
                 row=row, column=0, sticky="e", pady=5)
-            show = "•" if "Пароль" or "Повтор пароля" in lbl else ""
+            show = "•" if attr in ("_v_pass", "_v_pass2") else ""
             ttk.Entry(f, textvariable=getattr(self, attr),
                       font=FONT, width=26, show=show).grid(
                 row=row, column=1, padx=6)
