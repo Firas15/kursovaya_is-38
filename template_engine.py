@@ -65,7 +65,7 @@ def build_context(student: dict, country_name: str = "") -> dict:
                      student.get("birth_year"))
 
     fio_ru  = f"{s('last_name_ru')} {s('first_name_ru')} {s('middle_name_ru')}".strip()
-    fio_lat = f"{s('last_name_lat')} {s('first_name_lat')}".strip()
+    fio_lat = f"{s('last_name_lat')} {s('first_name_lat')} {s('middle_name_lat')}".strip()
 
     return {
         "{{фио}}":              fio_ru,
@@ -75,6 +75,7 @@ def build_context(student: dict, country_name: str = "") -> dict:
         "{{фамилия_лат}}":      s("last_name_lat"),
         "{{имя_лат}}":          s("first_name_lat"),
         "{{фио_лат}}":          fio_lat,
+        "{{отчество_лат}}": s("middle_name_lat"),
         "{{дата_рождения}}":    birth,
         "{{день}}":             str(student.get("birth_day") or ""),
         "{{месяц}}":            str(student.get("birth_month") or ""),
