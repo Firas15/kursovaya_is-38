@@ -38,6 +38,11 @@ def _app_dir() -> Path:
 CONFIG_PATH = _app_dir() / "config.ini"
 
 
+def get_app_dir() -> Path:
+    """Папка приложения (рядом с .exe или с main.py)."""
+    return _app_dir()
+
+
 # ── значения по умолчанию ─────────────────────────────────────────────────────
 
 DEFAULTS = {

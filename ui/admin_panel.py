@@ -45,8 +45,7 @@ class AdminPanel:
 
         # справка
         info = tk.Label(self.root,
-                        text="Администратор управляет только учётными записями пользователей. "
-                             "Максимум активных пользователей: 10.",
+                        text="Администратор управляет только учётными записями пользователей.",
                         bg="#fff3cd", fg="#856404", font=("Segoe UI", 9),
                         padx=10, pady=6, anchor="w")
         info.pack(fill="x")
@@ -160,7 +159,7 @@ class AdminPanel:
                                       status, r["created_at"]),
                               tags=(tag,))
         active = sum(1 for r in rows if r["is_active"])
-        self._count_lbl.config(text=f"Активных: {active} / 10")
+        self._count_lbl.config(text=f"Всего: {len(rows)}  ·  Активных: {active}")
 
     def _load_countries(self):
         self._clist.delete(0, "end")

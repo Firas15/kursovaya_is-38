@@ -27,9 +27,12 @@ from __future__ import annotations
 
 import os
 import shutil
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+
+from config import get_app_dir
 
 try:
     from docx import Document
@@ -38,11 +41,36 @@ try:
 except ImportError:
     DOCX_AVAILABLE = False
 
-TEMPLATES_DIR = Path(__file__).parent / "templates"
-EXPORTS_DIR   = Path(__file__).parent / "exports"
+# Шаблоны и экспорт — всегда рядом с .exe / main.py (запись возможна и в сборке PyInstaller).
+TEMPLATES_DIR = get_app_dir() / "templates"
+EXPORTS_DIR = get_app_dir() / "exports"
 
-TEMPLATES_DIR.mkdir(exist_ok=True)
-EXPORTS_DIR.mkdir(exist_ok=True)
+TEMPLATES_DIR.mkdir(parents=True, exist_ok=True)
+EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _bundled_templates_source() -> Path:
+    """Папка с .docx, упакованными в exe (PyInstaller) или из исходников при разработке."""
+    if getattr(sys, "frozen", False):
+        meipass = getattr(sys, "_MEIPASS", None)
+        if meipass:
+            return Path(meipass) / "templates"
+    return Path(__file__).resolve().parent / "templates"
+
+
+def ensure_bundled_word_templates() -> None:
+    """
+    Скопировать встроенные шаблоны в рабочую папку templates/ рядом с приложением.
+    Вызывать при старте окна шаблонов (и после сборки exe файлы окажутся на месте).
+    """
+    src = _bundled_templates_source()
+    if not src.is_dir():
+        return
+    TEMPLATES_DIR.mkdir(parents=True, exist_ok=True)
+    for f in sorted(src.glob("*.docx")):
+        dst = TEMPLATES_DIR / f.name
+        if not dst.exists():
+            shutil.copy2(f, dst)
 
 
 # ── построить словарь замен для студента ─────────────────────────────────────

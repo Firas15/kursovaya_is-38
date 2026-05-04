@@ -10,6 +10,7 @@ import database as db
 from template_engine import (
     get_all_templates, add_template, delete_template,
     fill_template, open_templates_folder, create_example_template,
+    ensure_bundled_word_templates,
     TEMPLATES_DIR,
 )
 
@@ -28,7 +29,7 @@ class TemplatesWindow(tk.Toplevel):
         self.grab_set()
         self.resizable(True, True)
 
-        # создать пример шаблона если папка пустая
+        ensure_bundled_word_templates()
         create_example_template()
 
         self._build()

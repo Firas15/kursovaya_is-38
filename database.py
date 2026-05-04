@@ -181,9 +181,6 @@ def create_user(username: str, password: str, full_name: str, role: str):
     from auth import hash_password
     conn = get_connection()
     try:
-        count = conn.execute("SELECT COUNT(*) FROM users WHERE is_active=1").fetchone()[0]
-        if count >= 10:
-            return False, "Достигнут лимит пользователей (максимум 10)"
         salt, pw_hash = hash_password(password)
         conn.execute(
             "INSERT INTO users (username, password_hash, salt, full_name, role) VALUES (?,?,?,?,?)",

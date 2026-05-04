@@ -3,7 +3,7 @@
 Изменения:
   - Мультивыбор студентов (Ctrl/Shift+клик)
   - Кнопки «Выбрать всех» и «Снять выбор»
-  - Отчёты/Шаблоны передают список выбранных id
+  - Шаблоны Word и табличные отчёты — отдельные окна
   - Кнопка Настройки в шапке
 """
 import tkinter as tk
@@ -34,7 +34,6 @@ HDR_FG  = "#ffffff"
 BTN_ADD = "#27ae60"
 BTN_EDT = "#2980b9"
 BTN_DEL = "#e74c3c"
-BTN_REP = "#8e44ad"
 FONT    = ("Segoe UI", 10)
 
 
@@ -118,10 +117,10 @@ class MainWindow:
             self._make_btn(btn_bar, "🗑  Удалить", BTN_DEL,
                            self._delete_student).pack(side="left", padx=2)
 
-        self._make_btn(btn_bar, "📄  Отчёты / Экспорт", BTN_REP,
-                       self._open_reports, width=20).pack(side="left", padx=6)
         self._make_btn(btn_bar, "📝  Шаблоны Word", "#8e44ad",
-                       self._open_templates, width=16).pack(side="left", padx=2)
+                       self._open_templates, width=16).pack(side="left", padx=6)
+        self._make_btn(btn_bar, "📊  Табличные отчёты", "#7b68ee",
+                       self._open_table_reports, width=20).pack(side="left", padx=2)
 
         # кнопки мультивыбора
         tk.Button(btn_bar, text="☑ Выбрать всех", bg="#546e7a", fg="white",
@@ -264,16 +263,16 @@ class MainWindow:
         self._status.config(text=f"Удалено: {len(ids)}")
         self._load_students()
 
-    def _open_reports(self):
-        from ui.reports_window import ReportsWindow
-        ids = self._selected_ids()
-        ReportsWindow(self.root, self.user, selected_student_ids=ids)
-
     def _open_templates(self):
         from ui.templates_window import TemplatesWindow
         ids = self._selected_ids()
         TemplatesWindow(self.root, self.user,
                         selected_student_id=ids[0] if ids else None)
+
+    def _open_table_reports(self):
+        from ui.table_reports_window import TableReportsWindow
+        ids = self._selected_ids()
+        TableReportsWindow(self.root, self.user, selected_student_ids=ids)
 
     def _open_settings(self):
         from ui.settings_window import SettingsWindow
